@@ -16,12 +16,25 @@
 package com.example.androiddevchallenge.data
 
 import androidx.compose.ui.graphics.Color
+import kotlin.random.Random
 
 sealed class WeatherState(val name: String, val primaryColor: Color, val colorOnPrimary: Color) {
     object Snow : WeatherState("Snow", Color.White, Color.Black)
     object Hail : WeatherState("Hail", Color.White, Color.Black)
     object Thunderstorm : WeatherState("Thunderstorm", Color.DarkGray, Color.White)
-    object Rain : WeatherState("Rain", Color.Black, Color.White)
+    object Rain : WeatherState("Rain", Color.DarkGray, Color.White)
     object Cloud : WeatherState("Cloud", Color.LightGray, Color.White)
     object Clear : WeatherState("Clear", Color.Blue, Color.Black)
+    companion object {
+        fun getRandomState(): WeatherState {
+            return when (Random.nextInt(0, 6)) {
+                0 -> Snow
+                1 -> Hail
+                2 -> Thunderstorm
+                3 -> Rain
+                4 -> Cloud
+                else -> Clear
+            }
+        }
+    }
 }

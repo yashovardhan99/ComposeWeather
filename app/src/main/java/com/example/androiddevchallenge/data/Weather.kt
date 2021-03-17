@@ -16,6 +16,7 @@
 package com.example.androiddevchallenge.data
 
 import androidx.annotation.IntRange
+import com.example.androiddevchallenge.data.Images.getImageUrl
 import java.time.LocalDateTime
 
 data class Weather(
@@ -25,5 +26,6 @@ data class Weather(
     val wind: Wind,
     @IntRange(from = 0, to = 100) val humidity: Int,
     val airPressure: Int,
-    val dayWeather: DayWeather
+    val dayWeather: DayWeather,
+    val imageUrl: String = state.getImageUrl()
 )
