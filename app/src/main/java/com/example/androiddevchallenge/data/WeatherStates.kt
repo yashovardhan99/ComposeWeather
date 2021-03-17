@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androiddevchallenge.ui.theme
+package com.example.androiddevchallenge.data
 
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Shapes
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.Color
 
-val shapes = Shapes(
-    small = RoundedCornerShape(4.dp),
-    medium = RoundedCornerShape(4.dp),
-    large = RoundedCornerShape(0.dp)
-)
+sealed class WeatherState(val name: String, val primaryColor: Color, val colorOnPrimary: Color) {
+    object Snow : WeatherState("Snow", Color.White, Color.Black)
+    object Hail : WeatherState("Hail", Color.White, Color.Black)
+    object Thunderstorm : WeatherState("Thunderstorm", Color.DarkGray, Color.White)
+    object Rain : WeatherState("Rain", Color.Black, Color.White)
+    object Cloud : WeatherState("Cloud", Color.LightGray, Color.White)
+    object Clear : WeatherState("Clear", Color.Blue, Color.Black)
+}

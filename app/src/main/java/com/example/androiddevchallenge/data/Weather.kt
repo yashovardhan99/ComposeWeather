@@ -13,14 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androiddevchallenge.ui.theme
+package com.example.androiddevchallenge.data
 
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Shapes
-import androidx.compose.ui.unit.dp
+import androidx.annotation.IntRange
+import java.time.LocalDateTime
 
-val shapes = Shapes(
-    small = RoundedCornerShape(4.dp),
-    medium = RoundedCornerShape(4.dp),
-    large = RoundedCornerShape(0.dp)
+data class Weather(
+    val time: LocalDateTime,
+    val state: WeatherState,
+    val temperature: Float,
+    val wind: Wind,
+    @IntRange(from = 0, to = 100) val humidity: Int,
+    val airPressure: Int,
+    val dayWeather: DayWeather
 )
