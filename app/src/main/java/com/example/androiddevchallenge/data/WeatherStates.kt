@@ -19,12 +19,12 @@ import androidx.compose.ui.graphics.Color
 import kotlin.random.Random
 
 sealed class WeatherState(val name: String, val primaryColor: Color, val colorOnPrimary: Color) {
-    object Snow : WeatherState("Snow", Color.White, Color.Black)
-    object Hail : WeatherState("Hail", Color.White, Color.Black)
-    object Thunderstorm : WeatherState("Thunderstorm", Color.DarkGray, Color.White)
-    object Rain : WeatherState("Rain", Color.DarkGray, Color.White)
-    object Cloud : WeatherState("Cloud", Color.LightGray, Color.White)
-    object Clear : WeatherState("Clear", Color.Blue, Color.Black)
+    object Snow : WeatherState("Snow", Color(0xFFE2E1E2), Color.Black)
+    object Hail : WeatherState("Hail", Color(0xFFDAE0E1), Color.Black)
+    object Thunderstorm : WeatherState("Thunderstorm", Color(0xFF252021), Color.White)
+    object Rain : WeatherState("Rain", Color(0xFF464570), Color.White)
+    object Cloud : WeatherState("Cloud", Color(0xFFDFDFD0), Color.White)
+    object Clear : WeatherState("Clear", Color(0xFFBEC9E1), Color.Black)
     companion object {
         fun getRandomState(): WeatherState {
             return when (Random.nextInt(0, 6)) {

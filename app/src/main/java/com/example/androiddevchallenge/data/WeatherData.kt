@@ -25,8 +25,10 @@ import kotlin.random.Random
 object WeatherData {
     const val City = "Kolkata"
     private val random = Random(Instant.now().toEpochMilli())
-    fun getRandomWeather(time: LocalDateTime): Weather {
-        val dayWeather = getRandomDayWeather(time.toLocalDate())
+    fun getRandomWeather(
+        time: LocalDateTime,
+        dayWeather: DayWeather = WeatherData.getRandomDayWeather(time.toLocalDate())
+    ): Weather {
         val range = (dayWeather.maxTemp - dayWeather.minTemp).toDouble()
         val state = WeatherState.getRandomState()
         val windSpeed: Float = if (state in listOf(WeatherState.Clear, WeatherState.Cloud)) {
@@ -74,7 +76,7 @@ object WeatherData {
         )
     }
 
-    private fun getRandomDayWeather(date: LocalDate): DayWeather {
+    fun getRandomDayWeather(date: LocalDate): DayWeather {
         val minTemp = random.nextDouble(10.0, 30.0).toFloat()
         val maxTemp = minTemp + random.nextDouble(5.0, 15.0).toFloat()
         val sunrise = LocalTime.of(random.nextInt(4, 7), random.nextInt(60))

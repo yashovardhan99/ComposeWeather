@@ -20,38 +20,38 @@ import kotlin.random.Random
 
 object Images {
     private val snow = listOf(
-        "https://unsplash.com/photos/4i5ToPi4K_c/download?force=true&w=640",
-        "https://unsplash.com/photos/-82DDsxA4WI/download?force=true&w=640",
-        "https://unsplash.com/photos/9RP6kahLkIQ/download?force=true&w=640",
-        "https://unsplash.com/photos/zkRu-T5paY0/download?force=true&w=640"
+        "https://source.unsplash.com/4i5ToPi4K_c",
+        "https://source.unsplash.com/-82DDsxA4WI",
+        "https://source.unsplash.com/9RP6kahLkIQ",
+        "https://source.unsplash.com/zkRu-T5paY0"
     )
     private val hail = listOf(
-        "https://unsplash.com/photos/JbH0Cp0rYys/download?force=true&w=640",
-        "https://unsplash.com/photos/ALbOhQFx3Wk/download?force=true&w=640",
-        "https://unsplash.com/photos/hAzPNKftUpY/download?force=true&w=640"
+        "https://source.unsplash.com/JbH0Cp0rYys",
+        "https://source.unsplash.com/ALbOhQFx3Wk",
+//        "https://source.unsplash.com/hAzPNKftUpY"
     )
     private val thunderstorm = listOf(
-        "https://unsplash.com/photos/k6WXcWZMd-k/download?force=true&w=640",
-        "https://unsplash.com/photos/Hgx1jpfYTqc/download?force=true&w=640",
-        "https://unsplash.com/photos/-b4aTvt80aM/download?force=true&w=640",
-        "https://unsplash.com/photos/uTvLmMLNNwo/download?force=true&w=640"
+        "https://source.unsplash.com/k6WXcWZMd-k",
+        "https://source.unsplash.com/Hgx1jpfYTqc",
+//        "https://source.unsplash.com/-b4aTvt80aM",
+//        "https://source.unsplash.com/uTvLmMLNNwo"
     )
     private val rain = listOf(
-        "https://unsplash.com/photos/bxSLlYyhimE/download?force=true&w=640",
-        "https://unsplash.com/photos/FobwhDUgdrk/download?force=true&w=640",
-        "https://unsplash.com/photos/Ix1TiS-E17E/download?force=true&w=640",
-        "https://unsplash.com/photos/1YHXFeOYpN0/download?force=true&w=640"
+        "https://source.unsplash.com/bxSLlYyhimE",
+//        "https://source.unsplash.com/FobwhDUgdrk",
+        "https://source.unsplash.com/Ix1TiS-E17E",
+        "https://source.unsplash.com/1YHXFeOYpN0"
     )
     private val cloud = listOf(
-        "https://unsplash.com/photos/v5KGZTY82Xk/download?force=true&w=640",
-        "https://unsplash.com/photos/Fp1aM1RhWsQ/download?force=true&w=640",
-        "https://unsplash.com/photos/UmrhKkHQHAQ/download?force=true&w=640"
+        "https://source.unsplash.com/v5KGZTY82Xk",
+        "https://source.unsplash.com/Fp1aM1RhWsQ",
+        "https://source.unsplash.com/UmrhKkHQHAQ"
     )
     private val clear = listOf(
-        "https://unsplash.com/photos/MUZNpl0Gdp0/download?force=true&w=640",
-        "https://unsplash.com/photos/qjHGy-GbWe0/download?force=true&w=640",
-        "https://unsplash.com/photos/bDsYeo_7YFo/download?force=true&w=640",
-        "https://unsplash.com/photos/wRZMDJWPuBI/download?force=true&w=640"
+        "https://source.unsplash.com/MUZNpl0Gdp0",
+//        "https://source.unsplash.com/qjHGy-GbWe0",
+        "https://source.unsplash.com/bDsYeo_7YFo",
+        "https://source.unsplash.com/wRZMDJWPuBI"
     )
     private val random = Random(Instant.now().toEpochMilli())
     fun WeatherState.getImageUrl(): String {
