@@ -20,6 +20,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import com.example.androiddevchallenge.data.Weather
 import com.example.androiddevchallenge.data.WeatherState
 
 // private val DarkColorPalette = darkColors(
@@ -43,14 +44,14 @@ onSurface = Color.Black,
 */
 // )
 
-fun colorScheme(weatherState: WeatherState): Colors =
-    if (weatherState != WeatherState.Thunderstorm && weatherState != WeatherState.Rain)
-        lightColors(background = weatherState.primaryColor)
-    else darkColors(background = weatherState.primaryColor)
+fun colorScheme(weather: Weather): Colors =
+    if (weather.state != WeatherState.Thunderstorm && weather.state != WeatherState.Rain)
+        lightColors(background = weather.imageColor)
+    else darkColors(background = weather.imageColor)
 
 @Composable
-fun MyTheme(weatherState: WeatherState, content: @Composable() () -> Unit) {
-    val colors = colorScheme(weatherState)
+fun MyTheme(weather: Weather, content: @Composable() () -> Unit) {
+    val colors = colorScheme(weather)
 
     MaterialTheme(
         colors = colors,

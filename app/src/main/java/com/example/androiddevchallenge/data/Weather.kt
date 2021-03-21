@@ -16,7 +16,8 @@
 package com.example.androiddevchallenge.data
 
 import androidx.annotation.IntRange
-import com.example.androiddevchallenge.data.Images.getImageUrl
+import androidx.compose.ui.graphics.Color
+import com.example.androiddevchallenge.data.Images.getImageData
 import java.time.LocalDateTime
 
 data class Weather(
@@ -27,5 +28,7 @@ data class Weather(
     @IntRange(from = 0, to = 100) val humidity: Int,
     val airPressure: Int,
     val dayWeather: DayWeather,
-    val imageUrl: String = state.getImageUrl()
+    private val imageData: Pair<String, Color> = state.getImageData(),
+    val imageUrl: String = imageData.first,
+    val imageColor: Color = imageData.second
 )

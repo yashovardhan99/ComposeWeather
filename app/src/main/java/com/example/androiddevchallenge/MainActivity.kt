@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             val weather by viewModel.weatherData.collectAsState(initial = null)
             Crossfade(targetState = weather) {
                 if (it != null) {
-                    MyTheme(it.state) {
+                    MyTheme(it) {
                         MyApp(it)
                     }
                 }
@@ -61,7 +61,7 @@ fun MyApp(weather: Weather) {
 @Composable
 fun LightPreview() {
     val weather = WeatherData.getRandomWeather(LocalDateTime.now())
-    MyTheme(weather.state) {
+    MyTheme(weather) {
         MyApp(weather)
     }
 }

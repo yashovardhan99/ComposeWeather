@@ -18,18 +18,17 @@ package com.example.androiddevchallenge.data
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
 
-sealed class WeatherState(val name: String, val primaryColor: Color, val icon: WeatherIcons) {
-    object Snow : WeatherState("Snow", Color(0xFFE2E1E2), WeatherIcons.Snow)
-    object Thunderstorm : WeatherState("Thunderstorm", Color(0xFF252021), WeatherIcons.Thunderstorm)
-    object Rain : WeatherState("Rain", Color(0xFF464570), WeatherIcons.Rain)
-    object Cloud : WeatherState("Cloud", Color(0xFFDFDFD0), WeatherIcons.Cloud)
-    object Clear : WeatherState("Clear", Color(0xFFBEC9E1), WeatherIcons.Clear)
+sealed class WeatherState(val name: String, val icon: WeatherIcons) {
+    object Snow : WeatherState("Snow", WeatherIcons.Snow)
+    object Thunderstorm : WeatherState("Thunderstorm", WeatherIcons.Thunderstorm)
+    object Rain : WeatherState("Rain", WeatherIcons.Rain)
+    object Cloud : WeatherState("Cloud", WeatherIcons.Cloud)
+    object Clear : WeatherState("Clear", WeatherIcons.Clear)
     companion object {
         fun getRandomState(): WeatherState {
             return when (Random.nextInt(0, 5)) {
@@ -112,7 +111,6 @@ sealed class WeatherIcons() {
                 lineTo(center.x * 1f, center.y * 1.6f)
             }
         }
-
     }
 
     object Cloud : WeatherIcons() {
