@@ -16,6 +16,9 @@
 package com.example.androiddevchallenge.ui.layout
 
 import android.util.Log
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -29,10 +32,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -67,7 +77,7 @@ import java.time.format.FormatStyle
 import kotlin.math.roundToInt
 
 @Composable
-fun WeatherScreen(weather: Weather) {
+fun WeatherScreen(weather: Weather, onRefresh: () -> Unit) {
     val context = LocalContext.current
     var height = 1600
     var width = 900
@@ -112,6 +122,13 @@ fun WeatherScreen(weather: Weather) {
             }
         )
         WeatherDataScreen1(weather)
+        Button(
+            onClick = onRefresh, modifier = Modifier.align(Alignment.TopEnd),
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
+            elevation = ButtonDefaults.elevation(0.dp, pressedElevation = 0.dp)
+        ) {
+            Icon(imageVector = Icons.Default.Refresh, contentDescription = "Refresh")
+        }
     }
 }
 
@@ -124,10 +141,6 @@ fun WeatherDataTop(weather: Weather) {
         IconWithTemperature(weather)
         MinMaxTemp(weather)
     }
-}
-
-@Composable
-fun WeatherDataBottom() {
 }
 
 @Composable
@@ -189,7 +202,7 @@ fun SunFact(isRise: Boolean, time: LocalTime, modifier: Modifier = Modifier) {
             ) {
                 Canvas(modifier = Modifier.fillMaxSize()) {
                     drawPath(
-                        WeatherIcons.Clear.getPath(size),
+                        WeatherIcons.Clear.getPath(size, 1f),
                         color = drawColor,
                         style = Stroke(width = 2.dp.toPx())
                     )
@@ -229,6 +242,12 @@ fun IconWithTemperature(weather: Weather) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
+        val progress = remember(weather.state) { Animatable(0f) }
+        LaunchedEffect(weather.state) {
+            progress.snapTo(0f)
+            progress.animateTo(1f, animationSpec = tween(500, easing = LinearEasing))
+        }
+//        Log.d("WeatherScreen", "Progress = ${progress.value}")
         val drawColor = MaterialTheme.colors.onBackground
         val temperature = weather.temperature.roundToInt()
         Box(
@@ -244,7 +263,7 @@ fun IconWithTemperature(weather: Weather) {
                     }
             ) {
                 drawPath(
-                    weather.state.icon.getPath(size),
+                    weather.state.icon.getPath(size, progress.value),
                     color = drawColor,
                     style = Stroke(
                         width = 4.dp.toPx(),
@@ -274,7 +293,7 @@ fun WeatherScreenPreview() {
     val weather = WeatherData.getRandomWeather(LocalDateTime.now(), dayWeather)
     MyTheme(weather) {
         Surface {
-            WeatherScreen(weather = weather)
+            WeatherScreen(weather = weather) {}
         }
     }
 }

@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                 if (it != null) {
                     MyTheme(it) {
                         ProvideWindowInsets() {
-                            MyApp(it)
+                            MyApp(it, viewModel)
                         }
                     }
                 }
@@ -56,9 +56,11 @@ class MainActivity : AppCompatActivity() {
 
 // Start building your app here!
 @Composable
-fun MyApp(weather: Weather) {
+fun MyApp(weather: Weather, viewModel: MainViewModel) {
     Surface(color = MaterialTheme.colors.background) {
-        WeatherScreen(weather)
+        WeatherScreen(weather) {
+            viewModel.refresh()
+        }
     }
 }
 
@@ -67,6 +69,6 @@ fun MyApp(weather: Weather) {
 fun LightPreview() {
     val weather = WeatherData.getRandomWeather(LocalDateTime.now())
     MyTheme(weather) {
-        MyApp(weather)
+        MyApp(weather, MainViewModel())
     }
 }

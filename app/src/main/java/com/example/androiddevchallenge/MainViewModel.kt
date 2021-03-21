@@ -18,34 +18,33 @@ package com.example.androiddevchallenge
 import androidx.lifecycle.ViewModel
 import com.example.androiddevchallenge.data.Weather
 import com.example.androiddevchallenge.data.WeatherData
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.time.LocalDate
 import java.time.LocalDateTime
 
 class MainViewModel : ViewModel() {
-    private var refreshNeeded = false
-    val weatherData: Flow<Weather> = flow {
-        while (true) {
-            getWeatherDataFlow()
-        }
-    }
-    private val dayWeather = WeatherData.getRandomDayWeather(LocalDate.now())
+    //    private var refreshNeeded = false
 
-    private suspend fun FlowCollector<Weather>.getWeatherDataFlow() {
-        emit(WeatherData.getRandomWeather(LocalDateTime.now(), dayWeather))
-        for (i in 1..300) {
-            delay(100)
-            if (refreshNeeded) {
-                refreshNeeded = false
-                break
-            }
-        }
+    private val dayWeather = WeatherData.getRandomDayWeather(LocalDate.now())
+    private val weather = MutableStateFlow<Weather?>(null)
+    val weatherData: Flow<Weather?> = weather
+
+    init {
+        refresh()
     }
+//    private suspend fun FlowCollector<Weather>.getWeatherDataFlow() {
+//        emit(WeatherData.getRandomWeather(LocalDateTime.now(), dayWeather))
+//        for (i in 1..300) {
+//            delay(100)
+//            if (refreshNeeded) {
+//                refreshNeeded = false
+//                break
+//            }
+//        }
+//    }
 
     fun refresh() {
-        refreshNeeded = true
+        weather.value = WeatherData.getRandomWeather(LocalDateTime.now(), dayWeather)
     }
 }
