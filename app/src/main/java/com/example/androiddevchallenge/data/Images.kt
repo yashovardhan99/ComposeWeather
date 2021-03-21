@@ -25,11 +25,11 @@ object Images {
         "https://source.unsplash.com/9RP6kahLkIQ",
         "https://source.unsplash.com/zkRu-T5paY0"
     )
-    private val hail = listOf(
-        "https://source.unsplash.com/JbH0Cp0rYys",
-        "https://source.unsplash.com/ALbOhQFx3Wk",
+//    private val hail = listOf(
+//        "https://source.unsplash.com/JbH0Cp0rYys",
+//        "https://source.unsplash.com/ALbOhQFx3Wk",
 //        "https://source.unsplash.com/hAzPNKftUpY"
-    )
+//    )
     private val thunderstorm = listOf(
         "https://source.unsplash.com/k6WXcWZMd-k",
         "https://source.unsplash.com/Hgx1jpfYTqc",
@@ -58,7 +58,6 @@ object Images {
         return when (this) {
             WeatherState.Clear -> clear.random(random)
             WeatherState.Cloud -> cloud.random(random)
-            WeatherState.Hail -> hail.random(random)
             WeatherState.Rain -> rain.random(random)
             WeatherState.Snow -> snow.random(random)
             WeatherState.Thunderstorm -> thunderstorm.random(random)

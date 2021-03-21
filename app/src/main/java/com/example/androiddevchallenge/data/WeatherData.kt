@@ -40,7 +40,6 @@ object WeatherData {
         val humidity = when (state) {
             WeatherState.Clear -> random.nextInt(60)
             WeatherState.Cloud -> random.nextInt(20, 80)
-            WeatherState.Hail -> random.nextInt(60, 100)
             WeatherState.Rain -> random.nextInt(70, 100)
             WeatherState.Snow -> random.nextInt(50, 80)
             WeatherState.Thunderstorm -> random.nextInt(80, 100)
