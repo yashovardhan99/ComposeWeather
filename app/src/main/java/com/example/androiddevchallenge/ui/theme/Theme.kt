@@ -15,6 +15,9 @@
  */
 package com.example.androiddevchallenge.ui.theme
 
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
@@ -52,6 +55,11 @@ fun colorScheme(weather: Weather): Colors =
 @Composable
 fun MyTheme(weather: Weather, content: @Composable() () -> Unit) {
     val colors = colorScheme(weather)
+    if (colors.isLight) {
+        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
+    } else {
+        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+    }
 
     MaterialTheme(
         colors = colors,

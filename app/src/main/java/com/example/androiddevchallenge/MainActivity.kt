@@ -26,22 +26,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.view.WindowCompat
 import com.example.androiddevchallenge.data.Weather
 import com.example.androiddevchallenge.data.WeatherData
 import com.example.androiddevchallenge.ui.layout.WeatherScreen
 import com.example.androiddevchallenge.ui.theme.MyTheme
+import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import java.time.LocalDateTime
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             val weather by viewModel.weatherData.collectAsState(initial = null)
             Crossfade(targetState = weather) {
                 if (it != null) {
                     MyTheme(it) {
-                        MyApp(it)
+                        ProvideWindowInsets() {
+                            MyApp(it)
+                        }
                     }
                 }
             }

@@ -58,6 +58,7 @@ import com.example.androiddevchallenge.data.WeatherData
 import com.example.androiddevchallenge.data.WeatherIcons
 import com.example.androiddevchallenge.ui.theme.MyTheme
 import dev.chrisbanes.accompanist.coil.CoilImage
+import dev.chrisbanes.accompanist.insets.statusBarsPadding
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -72,6 +73,7 @@ fun WeatherScreen(weather: Weather) {
     var width = 900
     Box(
         modifier = Modifier
+            .statusBarsPadding()
             .fillMaxSize()
             .onGloballyPositioned {
                 height = it.size.height
