@@ -21,6 +21,7 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,9 +30,10 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
@@ -39,7 +41,12 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Air
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Thermostat
+import androidx.compose.material.icons.filled.Water
+import androidx.compose.material.icons.outlined.WbCloudy
+import androidx.compose.material.icons.outlined.WbSunny
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -50,37 +57,31 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import coil.transform.BlurTransformation
-import com.example.androiddevchallenge.data.DayWeather
 import com.example.androiddevchallenge.data.Weather
 import com.example.androiddevchallenge.data.WeatherData
-import com.example.androiddevchallenge.data.WeatherIcons
 import com.example.androiddevchallenge.ui.theme.MyTheme
 import dev.chrisbanes.accompanist.coil.CoilImage
+import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import dev.chrisbanes.accompanist.insets.statusBarsPadding
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import kotlin.math.roundToInt
 
+var height = 1600
+var width = 900
+
 @Composable
 fun WeatherScreen(weather: Weather, onRefresh: () -> Unit) {
-    val context = LocalContext.current
-    var height = 1600
-    var width = 900
     Box(
         modifier = Modifier
             .statusBarsPadding()
@@ -98,9 +99,6 @@ fun WeatherScreen(weather: Weather, onRefresh: () -> Unit) {
             contentDescription = null,
             fadeIn = true,
             contentScale = ContentScale.Crop,
-//            requestBuilder = {
-//                transformations(BlurTransformation(context))
-//            },
             error = {
                 Text(
                     text = it.throwable.stackTraceToString(),
@@ -109,19 +107,8 @@ fun WeatherScreen(weather: Weather, onRefresh: () -> Unit) {
                         .background(Color.Red)
                 )
             },
-            loading = {
-                CoilImage(
-                    data = "${weather.imageUrl}/${width / 100}x${height / 100}",
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize(),
-                    requestBuilder = {
-                        transformations(BlurTransformation(context))
-                    }
-                )
-            }
         )
-        WeatherDataScreen1(weather)
+        WeatherDataScreen(weather)
         Button(
             onClick = onRefresh, modifier = Modifier.align(Alignment.TopEnd),
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
@@ -133,9 +120,9 @@ fun WeatherScreen(weather: Weather, onRefresh: () -> Unit) {
 }
 
 @Composable
-fun WeatherDataTop(weather: Weather) {
+fun WeatherDataTop(weather: Weather, modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Top
     ) {
         IconWithTemperature(weather)
@@ -144,81 +131,91 @@ fun WeatherDataTop(weather: Weather) {
 }
 
 @Composable
-fun WeatherDataScreen1(weather: Weather) {
+fun WeatherDataScreen(weather: Weather) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .background(
                 Brush.verticalGradient(
-                    0.2f to weather.imageColor,
+                    0.25f to weather.imageColor,
                     0.6f to Color.Transparent,
-                    0.9f to weather.imageColor,
+                    0.85f to weather.imageColor,
                 )
             ),
-        verticalArrangement = Arrangement.SpaceBetween
+        verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         WeatherDataTop(weather = weather)
-        SunFacts(weather = weather.dayWeather)
+        WeatherFacts(weather = weather)
     }
 }
 
 @Composable
-fun SunFacts(weather: DayWeather) {
+fun WeatherFacts(weather: Weather) {
+    val surfaceColor = weather.imageColor
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.Bottom
+            .horizontalScroll(rememberScrollState())
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(32.dp, Alignment.CenterHorizontally)
     ) {
-        SunFact(isRise = true, time = weather.sunrise, Modifier.weight(1f))
-        SunFact(isRise = false, time = weather.sunset, Modifier.weight(1f))
+        WeatherFact(
+            value = weather.dayWeather.sunrise.format(timeFormatter),
+            label = "Sunrise",
+            surfaceColor,
+            Icons.Outlined.WbSunny
+        )
+        WeatherFact(
+            value = weather.dayWeather.sunset.format(timeFormatter),
+            label = "Sunset",
+            surfaceColor,
+            Icons.Outlined.WbCloudy
+        )
+        WeatherFact(
+            value = "${weather.wind.speed.roundToInt()} Km/h",
+            label = "Wind",
+            surfaceColor,
+            Icons.Default.Air
+        )
+        WeatherFact(
+            value = "${weather.humidity} %",
+            label = "Humidity",
+            surfaceColor,
+            Icons.Default.Water
+        )
+        WeatherFact(
+            value = "${weather.airPressure} hPa",
+            label = "Pressure",
+            surfaceColor,
+            Icons.Default.Thermostat
+        )
+    }
+}
+
+@Composable
+fun WeatherFact(value: String, label: String, surfaceColor: Color, icon: ImageVector) {
+    Surface(
+        shape = MaterialTheme.shapes.medium,
+        color = surfaceColor.copy(alpha = 0.7f)
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .wrapContentHeight()
+                .widthIn(70.dp, 120.dp),
+            verticalArrangement = Arrangement.SpaceEvenly,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(imageVector = icon, contentDescription = null)
+            Text(text = value, style = MaterialTheme.typography.h5)
+            Text(text = label, style = MaterialTheme.typography.subtitle1)
+        }
     }
 }
 
 private val timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
-
-@Composable
-fun SunFact(isRise: Boolean, time: LocalTime, modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = if (isRise) Alignment.Start else Alignment.End
-    ) {
-        Text(
-            text = time.format(timeFormatter),
-            style = MaterialTheme.typography.caption,
-            fontSize = 36.sp,
-            textAlign = if (isRise) TextAlign.Start else TextAlign.End
-        )
-        val drawColor = MaterialTheme.colors.onBackground
-        Row(
-            horizontalArrangement = if (isRise) Arrangement.Start else Arrangement.End,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(24.dp)
-            ) {
-                Canvas(modifier = Modifier.fillMaxSize()) {
-                    drawPath(
-                        WeatherIcons.Clear.getPath(size, 1f),
-                        color = drawColor,
-                        style = Stroke(width = 2.dp.toPx())
-                    )
-                }
-            }
-            Text(
-                text = (if (isRise) "Sunrise" else "Sunset").toUpperCase(Locale.current),
-                modifier = Modifier
-                    .wrapContentSize(),
-                style = MaterialTheme.typography.caption,
-                fontSize = 24.sp,
-                textAlign = TextAlign.End
-            )
-        }
-    }
-}
 
 @Composable
 fun MinMaxTemp(weather: Weather) {
@@ -234,6 +231,11 @@ fun MinMaxTemp(weather: Weather) {
 
 @Composable
 fun IconWithTemperature(weather: Weather) {
+    val progress = remember(weather.state) { Animatable(0f) }
+    LaunchedEffect(weather.state) {
+        progress.snapTo(0f)
+        progress.animateTo(1f, animationSpec = tween(500, easing = LinearEasing))
+    }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -242,14 +244,7 @@ fun IconWithTemperature(weather: Weather) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
-        val progress = remember(weather.state) { Animatable(0f) }
-        LaunchedEffect(weather.state) {
-            progress.snapTo(0f)
-            progress.animateTo(1f, animationSpec = tween(500, easing = LinearEasing))
-        }
-//        Log.d("WeatherScreen", "Progress = ${progress.value}")
         val drawColor = MaterialTheme.colors.onBackground
-        val temperature = weather.temperature.roundToInt()
         Box(
             modifier = Modifier
                 .weight(0.6f)
@@ -273,12 +268,13 @@ fun IconWithTemperature(weather: Weather) {
             }
         }
         Text(
-            text = "$temperature°",
+            text = "${weather.temperature.roundToInt()}°",
             style = MaterialTheme.typography.h1,
             modifier = Modifier
                 .weight(1f)
                 .semantics {
-                    contentDescription = "Current temperature is $temperature degrees"
+                    contentDescription =
+                        "Current temperature is ${weather.temperature.roundToInt()} degrees"
                 }
                 .padding(horizontal = 16.dp),
             textAlign = TextAlign.End,
@@ -292,8 +288,10 @@ fun WeatherScreenPreview() {
     val dayWeather = WeatherData.getRandomDayWeather(LocalDate.now())
     val weather = WeatherData.getRandomWeather(LocalDateTime.now(), dayWeather)
     MyTheme(weather) {
-        Surface {
-            WeatherScreen(weather = weather) {}
+        ProvideWindowInsets() {
+            Surface {
+                WeatherScreen(weather = weather) {}
+            }
         }
     }
 }
