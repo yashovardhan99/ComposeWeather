@@ -46,6 +46,15 @@ when needed.
 <img src="/results/screenshot_4.png" width="260">&nbsp;
 <img src="/results/screenshot_5.png" width="260">&nbsp;
 
+# :computer: Animations
+
+All weather icons used in the app are animated using Compose (without any external tools)
+<img src="/results/animated_1.gif" width="260">&nbsp;
+<img src="/results/animated_2.gif" width="260">&nbsp;
+<img src="/results/animated_3.gif" width="260">&nbsp;
+<img src="/results/animated_4.gif" width="260">&nbsp;
+<img src="/results/animated_5.gif" width="260">&nbsp;
+
 ## License
 
 ```
