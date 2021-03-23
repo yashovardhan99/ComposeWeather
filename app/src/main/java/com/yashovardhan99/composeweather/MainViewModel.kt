@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androiddevchallenge
+package com.yashovardhan99.composeweather
 
 import androidx.lifecycle.ViewModel
-import com.example.androiddevchallenge.data.Weather
-import com.example.androiddevchallenge.data.WeatherData
+import com.yashovardhan99.composeweather.data.Weather
+import com.yashovardhan99.composeweather.data.WeatherData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.time.LocalDate

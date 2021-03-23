@@ -13,11 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androiddevchallenge.ui.theme
+package com.yashovardhan99.composeweather.data
 
+import androidx.annotation.IntRange
 import androidx.compose.ui.graphics.Color
+import com.yashovardhan99.composeweather.data.Images.getImageData
+import java.time.LocalDateTime
 
-val purple200 = Color(0xFFBB86FC)
-val purple500 = Color(0xFF6200EE)
-val purple700 = Color(0xFF3700B3)
-val teal200 = Color(0xFF03DAC5)
+data class Weather(
+    val time: LocalDateTime,
+    val state: WeatherState,
+    val temperature: Float,
+    val wind: Wind,
+    @IntRange(from = 0, to = 100) val humidity: Int,
+    val airPressure: Int,
+    val dayWeather: DayWeather,
+    private val imageData: Pair<String, Color> = state.getImageData(),
+    val imageUrl: String = imageData.first,
+    val imageColor: Color = imageData.second
+)

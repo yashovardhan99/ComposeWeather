@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androiddevchallenge.data
+package com.yashovardhan99.composeweather.data
 
 import androidx.annotation.FloatRange
 import androidx.compose.material.icons.Icons
@@ -26,7 +26,7 @@ import androidx.compose.material.icons.filled.SouthEast
 import androidx.compose.material.icons.filled.SouthWest
 import androidx.compose.material.icons.filled.West
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.example.androiddevchallenge.data.CompassDirection.Companion.toCompassDirection
+import com.yashovardhan99.composeweather.data.CompassDirection.Companion.toCompassDirection
 
 data class Wind(
     @FloatRange(from = 0.0) val speed: Float,

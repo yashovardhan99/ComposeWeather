@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androiddevchallenge.ui.theme
+package com.yashovardhan99.composeweather.ui.theme
 
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
@@ -23,8 +23,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
-import com.example.androiddevchallenge.data.Weather
-import com.example.androiddevchallenge.data.WeatherState
+import com.yashovardhan99.composeweather.data.Weather
+import com.yashovardhan99.composeweather.data.WeatherState
 
 // private val DarkColorPalette = darkColors(
 //    primary = purple200,

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androiddevchallenge
+package com.yashovardhan99.composeweather
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -27,10 +27,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
-import com.example.androiddevchallenge.data.Weather
-import com.example.androiddevchallenge.data.WeatherData
-import com.example.androiddevchallenge.ui.layout.WeatherScreen
-import com.example.androiddevchallenge.ui.theme.MyTheme
+import com.yashovardhan99.composeweather.data.Weather
+import com.yashovardhan99.composeweather.data.WeatherData
+import com.yashovardhan99.composeweather.ui.layout.WeatherScreen
+import com.yashovardhan99.composeweather.ui.theme.MyTheme
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import java.time.LocalDateTime
 

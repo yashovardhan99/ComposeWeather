@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androiddevchallenge.ui.layout
+package com.yashovardhan99.composeweather.ui.layout
 
 import android.util.Log
 import androidx.compose.animation.core.Animatable
@@ -65,9 +65,9 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.androiddevchallenge.data.Weather
-import com.example.androiddevchallenge.data.WeatherData
-import com.example.androiddevchallenge.ui.theme.MyTheme
+import com.yashovardhan99.composeweather.data.Weather
+import com.yashovardhan99.composeweather.data.WeatherData
+import com.yashovardhan99.composeweather.ui.theme.MyTheme
 import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import dev.chrisbanes.accompanist.insets.statusBarsPadding

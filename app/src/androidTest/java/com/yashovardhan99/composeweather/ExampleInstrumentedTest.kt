@@ -13,15 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androiddevchallenge.data
+package com.yashovardhan99.composeweather
 
-import java.time.LocalDate
-import java.time.LocalTime
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
 
-data class DayWeather(
-    val date: LocalDate,
-    val minTemp: Float,
-    val maxTemp: Float,
-    val sunrise: LocalTime,
-    val sunset: LocalTime
-)
+/**
+ * Instrumented test, which will execute on an Android device.
+ *
+ * See [testing documentation](http://d.android.com/tools/testing).
+ */
+@RunWith(AndroidJUnit4::class)
+class ExampleInstrumentedTest {
+    @get:Rule
+    val composeTestRule = createAndroidComposeRule<MainActivity>()
+
+    @Test
+    fun sampleTest() {
+        // Add instrumented tests here
+    }
+}
